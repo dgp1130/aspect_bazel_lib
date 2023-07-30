@@ -280,11 +280,11 @@ _copy_to_directory_attr = {
     "_options": attr.label(default = "//lib:copy_options"),
     # use '_tool' attribute for development only; do not commit with this attribute active since it
     # propagates a dependency on rules_go which would be breaking for users
-    # "_tool": attr.label(
-    #     executable = True,
-    #     cfg = "exec",
-    #     default = "//tools/copy_to_directory",
-    # ),
+    "_tool": attr.label(
+        executable = True,
+        cfg = "exec",
+        default = "//tools/copy_to_directory",
+    ),
 }
 
 def _any_globs_match(exprs, path):
@@ -601,8 +601,8 @@ def _copy_to_directory_impl(ctx):
         ctx,
         name = ctx.attr.name,
         dst = dst,
-        # copy_to_directory_bin = ctx.executable._tool,  # use for development
-        copy_to_directory_bin = copy_to_directory_bin,
+        copy_to_directory_bin = ctx.executable._tool,  # use for development
+        # copy_to_directory_bin = copy_to_directory_bin,
         files = ctx.files.srcs,
         targets = [t for t in ctx.attr.srcs if DirectoryPathInfo in t],
         root_paths = ctx.attr.root_paths,
